@@ -1,0 +1,37 @@
+upstream <%= @name %> {
+  server unix:<%= @shared_sock_path %>/unicorn.sock fail_timeout=0;
+}
+
+server {
+ 
+  listen 80;
+  server_name <%= @server_names.join(' ') %>;
+
+  root <%= @current_path %>/public;
+
+  access_log <%= @shared_log_path %>/access.log combined;
+  error_log <%= @shared_log_path %>/error.log;
+
+  location / {
+
+    if (-f $request_filename) {
+       break;
+     }
+
+     if (!-f $request_filename) {
+       proxy_pass http://<%= @name %>;
+       break;
+     }
+   }
+
+  error_page  500 502 503 504 /500.html;
+  error_page  404 /404.html;
+
+  location = /500.html {
+    root  <%= @current_path %>/public;
+  }
+
+  location = /400.html {
+    root  <%= @current_path %>/public;
+  }
+}

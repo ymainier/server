@@ -1,0 +1,9 @@
+server {
+  listen 80;
+  server_name <%= @server_names.join(' ') %>;
+
+  root <%= @current_path %>/public;
+
+  access_log <%= @shared_log_path %>/access.log combined;
+  error_log <%= @shared_log_path %>/error.log;
+}
