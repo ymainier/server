@@ -1,0 +1,3 @@
+.vagrant
+nodes/*
+!nodes/.gitkeep
