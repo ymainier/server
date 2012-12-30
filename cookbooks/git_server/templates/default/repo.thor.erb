@@ -1,7 +1,7 @@
 class Repo < Thor
   ROOT = '<%= node[:git_server][:root] %>'
   USER = '<%= @name %>'
-  HOST = '<%= node[:hostname] %>'
+  HOST = '<%= node[:fqdn] %>'
 
   desc "list", "List all repository"
   def list
