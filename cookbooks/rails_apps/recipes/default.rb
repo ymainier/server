@@ -62,7 +62,7 @@ node[:rails_applications].each do |rails_application, conf|
       template "#{configuration[:etc_path]}/#{f}" do
         mode "0644"
         variables configuration
-        notifies :restart, "service[#{name}]"
+        #notifies :restart, "service[#{name}]"
       end
     end
 
@@ -70,13 +70,13 @@ node[:rails_applications].each do |rails_application, conf|
       source "upstart.conf.erb"
       mode "0644"
       variables configuration
-      notifies :restart, "service[#{name}]"
+      #notifies :restart, "service[#{name}]"
     end
-    service name do
-      provider Chef::Provider::Service::Upstart
-      supports :status => true, :restart => true
-      action [ :enable, :start ]
-    end
+    #service name do
+      #provider Chef::Provider::Service::Upstart
+      #supports :status => true, :restart => true
+      #action [ :enable, :start ]
+    #end
 
     template "#{node[:nginx][:sites_available]}/#{name}" do
       source "nginx.conf.erb"
