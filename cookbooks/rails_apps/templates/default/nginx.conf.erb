@@ -1,4 +1,4 @@
-upstream <%= @name %> {
+upstream <%= @server_names.first %> {
   server unix:<%= @shared_sock_path %>/unicorn.sock fail_timeout=0;
 }
 
@@ -19,7 +19,7 @@ server {
      }
 
      if (!-f $request_filename) {
-       proxy_pass http://<%= @name %>;
+       proxy_pass http://<%= @server_names.first %>;
        break;
      }
    }
