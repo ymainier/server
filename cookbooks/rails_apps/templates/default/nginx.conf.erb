@@ -2,10 +2,17 @@ upstream <%= @server_names.first %> {
   server unix:<%= @shared_sock_path %>/unicorn.sock fail_timeout=0;
 }
 
+<% if @server_names.count > 1 %>
 server {
- 
   listen 80;
-  server_name <%= @server_names.join(' ') %>;
+  server_name <%= @server_names.slice(1, @server_names.length).join(' ') %>;
+  return 301 $scheme://<%= @server_names.first %>$request_uri;
+}
+<% end %>
+
+server {
+  listen 80;
+  server_name <%= @server_names.first %>;
 
   root <%= @current_path %>/public;
 
